@@ -49,6 +49,20 @@ app.post("/webhook", async (req, res) => {
       }
     );
   }
+  try {
+  await axios.post(
+    `https://graph.facebook.com/v24.0/${PHONE_NUMBER_ID}/messages`,
+    {
+      messaging_product: "whatsapp",
+      to: from,
+      text: { body: "مرحبًا بك 👋\nبوت عمادة القبول والتسجيل – جامعة بيشة\n\nاكتب سؤالك وسيتم الرد عليك قريبًا." }
+    },
+    { headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, "Content-Type": "application/json" } }
+  );
+} catch (err) {
+  console.log("SEND ERROR:", err?.response?.data || err.message);
+}
+
 
   res.sendStatus(200);
 });
